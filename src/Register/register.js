@@ -7,6 +7,7 @@ import {
     Tooltip,
     Icon,
     Button,
+    message
   } from 'antd';
 
   const SignUpURL = 'https://split-the-bill-api.herokuapp.com/api/auth/register';
@@ -28,6 +29,7 @@ import {
           .then(res => {
               debugger
               console.log(res.data.message);
+              message.success('Sign in successful', 1.0)
               props.form.resetFields()
             //   props.history.push('/')
           })
@@ -67,8 +69,8 @@ import {
   
       const formItemLayout = {
         labelCol: {
-          xs: { span: 15 }, //24
-          sm: { span: 8 }, //8
+          xs: { span: 20 }, //24
+          sm: { span: 10 }, //8
         },
         wrapperCol: {
           xs: { span: 15 }, //24
@@ -94,10 +96,14 @@ import {
         margin: '0 auto',
         backgroundColor: '#D3D4D9'
     };
+
+    const styles1 = {
+      margin: '0 auto'
+    }
   
       return (
         <div style={styles2}>
-            <div>
+            <div style={styles1}>
                 <h2>Sign Up</h2>
             </div>
             <Form {...formItemLayout} onSubmit={handleSubmit}>
