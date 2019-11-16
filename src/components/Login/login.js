@@ -20,7 +20,7 @@ const NormalLoginForm = (props) => {
 
       if (!err) {
         console.log(details)
-        message.loading('Logging in...', 2.5)
+        message.loading('Logging in...', 3.5)
 
         axios.post(loginURL, details)
         .then(res => {
@@ -76,7 +76,7 @@ const NormalLoginForm = (props) => {
         </Form.Item>
         <Form.Item>
             <div>
-          <a className="login-form-forgot" href="#">
+          <a className="login-form-forgot" href="google.com">
             Forgot password?
           </a>
           </div>
@@ -84,7 +84,7 @@ const NormalLoginForm = (props) => {
             Log in
           </Button>
           <div>
-          Dont have an account? <a href="#">register now!</a>
+          Dont have an account? <a href="google.com">register now!</a>
           </div>
         </Form.Item>
       </Form>
