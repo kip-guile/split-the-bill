@@ -1,32 +1,9 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import AxiosAuth from '../../AxiosAuth/AxiosAuth';
 import { Modal, Form, Input } from 'antd';
 
 
-  const createBillURL = 'https://split-the-bill-api.herokuapp.com/api/bills';
-
 const CreateBill = (props) => {
-
-    // const createBill = (formValues, actions) => {
-    //     const details = {
-    //         amount: formValues.amount,
-    //         title: formValues.title
-    //     }
-
-
-    //     AxiosAuth()
-    //         .post(createBillURL, details)
-    //         .then(res => {
-    //             actions.resetForm();
-    //             alert(res.statusText);
-    //             props.history.push('/my_bills')
-    //         })
-    //         .catch(error => {
-    //             localStorage.clear();
-    //             alert(error.message);
-    //         });
-    // };
 
 
     return (
