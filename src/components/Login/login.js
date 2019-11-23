@@ -26,9 +26,8 @@ const NormalLoginForm = (props) => {
         .then(res => {
             localStorage.setItem('token', res.data.token);
             message.success('You are logged in', 1.0)
-
             // actions.resetForm();
-            // props.history.push('/dashboard')
+            props.history.push('/dashboard')
         })
         .catch(error => {
             localStorage.clear();

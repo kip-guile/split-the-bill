@@ -1,13 +1,14 @@
 import React from 'react';
-import { List, Card } from 'antd'
+import { Card } from 'antd'
 
 
 export default function BillCard({ bill }) {
 
   
   return (
-    <div style={{ background: '#ECECEC', padding: '30px' }}>
-    <Card title={bill.title} bordered={false} style={{ width: 300 }}>
+    <div>
+    <Card title={bill.title} style={{ width: 300, marginBottom: '0.5em',
+    backgroundColor: '#D3D4D9' }}>
       <p style={{ color: '#91BF26' }}>Amount: {bill.amount}</p>
       <p>status: {bill.status}</p>
       <p>Card content</p>

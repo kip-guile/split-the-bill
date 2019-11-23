@@ -34,6 +34,24 @@ export default (state = initialState, action) => {
                     bills: action.payload
                 }
             }
+
+        case actionTypes.UPDATE_BILLS:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    bills: [...state.currentUser.bills, action.payload]
+                }
+            }
+
+        case actionTypes.ADD_SPLITS:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    splits: action.payload
+                }
+            }
     
         default:
             return state;

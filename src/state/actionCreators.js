@@ -25,6 +25,17 @@ export const getBills = () => dispatch => {
         })
 }
 
+export const getSplits = () => dispatch => {
+    AxiosAuth().get(splitsApi)
+        .then(res => {
+            const splitsAray = res.data.user.splits
+            dispatch({type: types.ADD_SPLITS, payload: splitsAray})
+        })
+        .catch(error => {
+            console.log(error.message)
+        })
+}
+
 export function increment(){
     return {type: types.INCREMENT}
 }
