@@ -1,8 +1,8 @@
-import React from 'react';
-import { Card } from 'antd'
+import React, {useState} from 'react';
+import { Card, Button } from 'antd'
 
 
-export default function BillCard({ bill }) {
+export default function BillCard({ bill, showModal }) {
 
   
   return (
@@ -12,15 +12,28 @@ export default function BillCard({ bill }) {
       <p style={{ color: '#91BF26' }}>Amount: {bill.amount}</p>
       <p>status: {bill.status}</p>
       <p>Card content</p>
+      {bill.splits.length ?
+            <Button
+              style={{
+                  background: '#BB0A21',
+                  border: 'none',
+                  color: 'white',
+                  marginTop: '10%'
+                  }}>
+                View Splits
+              </Button>
+               :             
+               <Button  
+               onClick={() => showModal()}            
+                 style={{
+                     background: '#4B88A2',
+                     border: 'none',
+                     color: 'white',
+                     marginTop: '10%'
+                     }}>
+                   Split Bill
+            </Button>}
     </Card>
     </div>
-
-    // <div>
-    //   <div>
-    //     <h2></h2>
-    //     <h3 style={{ color: '#91BF26' }}>Amount: {bill.amount}</h3>
-    //     <p>status: {bill.status}</p>
-    //   </div>
-    // </div>
   )
 }

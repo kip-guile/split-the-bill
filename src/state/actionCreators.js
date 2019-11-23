@@ -2,7 +2,21 @@ import * as types from './actionTypes'
 import AxiosAuth from "../AxiosAuth/AxiosAuth";
 
 
-const splitsApi = 'https://split-the-bill-api.herokuapp.com/api/users/profile';
+const splitsApi = 'https://split-the-bill-api.herokuapp.com/api/users/profile'
+const usersApi = 'https://split-the-bill-api.herokuapp.com/api/users';
+const userDetailsApi = 'https://split-the-bill-api.herokuapp.com/api/users/profile';
+
+
+export const getUsers = () => dispatch => {
+    AxiosAuth().get(usersApi)
+        .then(res => {
+            const users = res.data.users;
+            dispatch({type: types.ADD_USERS, payload: users});
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
+}
 
 export const addUsers = (users) => ({
     type: types.ADD_USERS,

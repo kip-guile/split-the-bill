@@ -45,9 +45,7 @@ const SideProfile = () => {
                 formRef.resetFields();
                 message.info('Bill Created');
                 dispatch({type: types.UPDATE_BILLS, payload: data})
-                // dispatch(actionCreators.getBills())
                 setIsVisible(false);
-                // props.history.push('/my_bills')
             })
             .catch(error => {
                 debugger

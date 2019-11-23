@@ -52,6 +52,14 @@ export default (state = initialState, action) => {
                     splits: action.payload
                 }
             }
+
+        case actionTypes.UPDATE_SPLITS:
+            return {
+                currentUser: {
+                    ...state.currentUser,
+                    splits: action.payload
+                }
+            }
     
         default:
             return state;
