@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Card, Button } from 'antd'
 
 
@@ -24,7 +24,7 @@ export default function BillCard({ bill, showModal }) {
               </Button>
                :             
                <Button  
-               onClick={() => showModal()}            
+               onClick={() => showModal(bill.id)}            
                  style={{
                      background: '#4B88A2',
                      border: 'none',

@@ -1,31 +1,24 @@
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import React from 'react';
 import 'antd/dist/antd.css';
 import { Modal, Select } from 'antd';
 
-const { Option } = Select;
 
+const ShareBill = ({roll, visible, onCancel, onCreate, billId}) => {
 
-const ShareBill = (props) => {
-    const users = useSelector(state => state.lumpstate.users)
-
-    const roll = users.map(user => 
-    <Option key={user.id}>{<p>{user.firstName + ' ' + user.lastName}</p>}</Option>)
-
-function handleChange(value) {
     let names = []
-    names.push(value)
-    console.log(names)
-  }
 
+    function handleChange(value) {
+        names.push(value)
+        return names
+      }
 
     return (
       <Modal
-          visible={props.visible}
+          visible={visible}
           title="Select a users to split the bill with"
           okText="Split"
-          onCancel={props.onCancel}
-          onOk={props.onCreate}
+          onCancel={onCancel}
+          onOk={() => onCreate(billId, names)}
         >
               <Select
                 mode="multiple"

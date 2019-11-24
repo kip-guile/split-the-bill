@@ -4,7 +4,6 @@ import AxiosAuth from "../AxiosAuth/AxiosAuth";
 
 const splitsApi = 'https://split-the-bill-api.herokuapp.com/api/users/profile'
 const usersApi = 'https://split-the-bill-api.herokuapp.com/api/users';
-const userDetailsApi = 'https://split-the-bill-api.herokuapp.com/api/users/profile';
 
 
 export const getUsers = () => dispatch => {

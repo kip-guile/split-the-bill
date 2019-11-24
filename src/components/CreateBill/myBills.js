@@ -3,9 +3,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import { StickyContainer, Sticky } from 'react-sticky';
 import * as actionCreators from '../../state/actionCreators';
 import BillCard from './billCard'
-import { Tabs } from 'antd';
+import { Tabs, Select, message } from 'antd';
 import SplitsCard from '../Splits/splitsCard';
 import ShareBill from './shareModal';
+import AxiosAuth from '../../AxiosAuth/AxiosAuth'
+
+const { Option } = Select;
 const { TabPane } = Tabs;
 
 
@@ -23,9 +26,27 @@ const renderTabBar = (props, DefaultTabBar) => (
 
 export default function MyBills (props) {
   const [isVisible, setIsVisible] = useState(false)
+  const [billId, setBillId] = useState('')
+
+  const split = (id, users) => {
+
+    AxiosAuth()
+      .post(`https://split-the-bill-api.herokuapp.com/api/bills/${id}/split`, {
+        splitters: (users[users.length - 1]),
+      })
+      .then(res => {
+        message.success('Bill splitted successfully')
+        dispatch(actionCreators.getBills())
+        setIsVisible(false)
+      })
+      .catch(err => {
+        message.error(err.message)
+      })
+  };
     
-  const showModal = () => {
-      setIsVisible(true)
+  const showModal = (id) => {
+    setBillId(id)
+    setIsVisible(true)
   }
 
   const handleCancel = () => {
@@ -36,6 +57,10 @@ export default function MyBills (props) {
   const dispatch = useDispatch()
 
   const bills = lumpstate.currentUser.bills
+  const users = lumpstate.users
+
+  const roll = users.map(user => 
+  <Option key={user.id}>{<p>{user.firstName + ' ' + user.lastName}</p>}</Option>)
 
     useEffect(() => {
       dispatch(actionCreators.getBills())
@@ -80,7 +105,9 @@ export default function MyBills (props) {
       <ShareBill
           visible={isVisible}
           onCancel={handleCancel}
-          // onCreate={handleCreate}
+          roll={roll}
+          billId={billId}
+          onCreate={split}
           />
     </div>
     
