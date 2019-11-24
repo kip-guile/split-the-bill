@@ -1,28 +1,21 @@
 import React from 'react'
-import { List, Typography } from 'antd';
+import { List, Button } from 'antd';
 
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-];
-
-export default function SettleList(props){
+export default function SettleList({data, approve}){
 
 
     return (
         <div>
-        <h3 style={{ marginBottom: 16 }}>Default Size</h3>
+        <h3 style={{ marginBottom: 16 }}>Confirm Payment</h3>
         <List
-        header={<div>Header</div>}
-        footer={<div>Footer</div>}
         bordered
         dataSource={data}
         renderItem={item => (
             <List.Item>
-          <Typography.Text mark>[ITEM]</Typography.Text> {item}
+            <List.Item.Meta
+            title={<p>{item.amount} |{<br/>}| {item.status}</p>}
+            description={<Button onClick={() => approve(item.id)}>Confirm</Button>}
+            />
         </List.Item>
       )}
     />

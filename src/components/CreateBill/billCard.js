@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Button } from 'antd'
 
 
-export default function BillCard({ bill, showModal }) {
+export default function BillCard({ bill, showModal, showSettleModal }) {
 
   
   return (
@@ -14,6 +14,7 @@ export default function BillCard({ bill, showModal }) {
       <p>Card content</p>
       {bill.splits.length ?
             <Button
+            onClick={() => showSettleModal(bill.id)} 
               style={{
                   background: '#BB0A21',
                   border: 'none',

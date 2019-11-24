@@ -7,6 +7,7 @@ import { Tabs, Select, message } from 'antd';
 import SplitsCard from '../Splits/splitsCard';
 import ShareBill from './shareModal';
 import AxiosAuth from '../../AxiosAuth/AxiosAuth'
+import SettleModal from '../settle/settleModal';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -26,7 +27,16 @@ const renderTabBar = (props, DefaultTabBar) => (
 
 export default function MyBills (props) {
   const [isVisible, setIsVisible] = useState(false)
+  const [settleVisible, setSettleVisible] = useState(false)
   const [billId, setBillId] = useState('')
+  const [data, setData] = useState([])
+
+
+  const lumpstate = useSelector(state => state.lumpstate)
+  const dispatch = useDispatch()
+
+  const bills = lumpstate.currentUser.bills
+  const users = lumpstate.users
 
   const split = (id, users) => {
 
@@ -43,21 +53,31 @@ export default function MyBills (props) {
         message.error(err.message)
       })
   };
+
+  const handleSettleCreate = () => {
+
+  }
     
   const showModal = (id) => {
     setBillId(id)
     setIsVisible(true)
   }
 
+  const showSettleModal = (bid) => {
+    const currentbill = bills.find(({id}) => id === bid)
+    setData(currentbill.splits)
+    console.log(bills, bid, currentbill, currentbill.splits)
+    setSettleVisible(true)
+  }
+
   const handleCancel = () => {
       setIsVisible(false)
   }
 
-  const lumpstate = useSelector(state => state.lumpstate)
-  const dispatch = useDispatch()
-
-  const bills = lumpstate.currentUser.bills
-  const users = lumpstate.users
+  const onSettleCancel = () => {
+    setSettleVisible(false)
+}
+  
 
   const roll = users.map(user => 
   <Option key={user.id}>{<p>{user.firstName + ' ' + user.lastName}</p>}</Option>)
@@ -82,6 +102,7 @@ export default function MyBills (props) {
                   key={bill.id}
                   bill={bill}
                   showModal={showModal}
+                  showSettleModal={showSettleModal}
                 />
               ))}
             </div>}
@@ -100,6 +121,14 @@ export default function MyBills (props) {
         </TabPane>
         </Tabs>
       </StickyContainer>
+
+      <SettleModal
+      settleVisible={settleVisible}
+      onSettleCancel={onSettleCancel}
+      handleSettleCreate={handleSettleCreate}
+      data={data}
+      setSettleVisible={setSettleVisible}
+      />
 
       
       <ShareBill
