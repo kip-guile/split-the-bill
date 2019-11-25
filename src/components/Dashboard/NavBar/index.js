@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import { NavLink } from 'react-router-dom'
 import * as creators from '../../../state/actionCreators'
 import styled from 'styled-components';
 import { Button } from 'antd';
@@ -34,9 +35,13 @@ const Div = styled.div`
   }
 `;
 
-const NavBar = () => {
+const NavBar = (props) => {
   const lumpstate = useSelector(state => state.lumpstate)
   const dispatch = useDispatch()
+
+  const onLogout = () => {
+    localStorage.clear()
+};
 
 
   useEffect(() => {
@@ -49,9 +54,11 @@ const NavBar = () => {
         <Div>
           <h3 style={{ color: '#FFF9FB' }}>Welcome, {user.firstName}</h3>
             <h3 style={{ color: '#FFF9FB' }}>{user.email}</h3>
-            <Button>
+            <NavLink to='/'>
+              <Button onClick={onLogout}>
                 Logout
             </Button>
+            </NavLink>
         </Div>
     )
 }
