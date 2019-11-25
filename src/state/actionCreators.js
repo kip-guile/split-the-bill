@@ -17,6 +17,17 @@ export const getUsers = () => dispatch => {
         })
 }
 
+export const getCurrentUsers = () => dispatch => {
+    AxiosAuth().get(splitsApi)
+        .then(res => {
+            const users = res.data.user;
+            dispatch({type: types.ADD_CURRENT_USER, payload: users});
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
+}
+
 export const addUsers = (users) => ({
     type: types.ADD_USERS,
     payload: users,

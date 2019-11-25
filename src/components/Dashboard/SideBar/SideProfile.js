@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react'
-import {useSelector, useDispatch} from 'react-redux';
-import { Button, Icon, message } from 'antd';
+import {useDispatch} from 'react-redux';
+import { Button, message } from 'antd';
 import * as types from '../../../state/actionTypes'
 import AxiosAuth from '../../../AxiosAuth/AxiosAuth'
 import CreateBill from '../../CreateBill/billModal'
@@ -12,7 +12,6 @@ const SideProfile = () => {
     const [isVisible, setIsVisible] = useState(false)
     const [formRef, setFormRef] = useState(null);
 
-    const lumpstate = useSelector(state => state.lumpstate)
     const dispatch = useDispatch()
 
     const showModal = () => {
@@ -33,14 +32,10 @@ const SideProfile = () => {
             amount: values.amount,
             title: values.title
         }
-
-        console.log(lumpstate)
-
         
         AxiosAuth()
             .post(createBillURL, details)
             .then(res => {
-                debugger
                 const data = res.data.bill
                 formRef.resetFields();
                 message.info('Bill Created');
@@ -48,7 +43,6 @@ const SideProfile = () => {
                 setIsVisible(false);
             })
             .catch(error => {
-                debugger
                 localStorage.clear();
                 message.error(error.data.message);
             });
@@ -71,10 +65,11 @@ const SideProfile = () => {
 
     return (
         <div style={{ textAlign: 'center' }}>
-            <Icon type="user" style={imageStyle}/>
-            <br />
-            <h3 style={{ color: 'white', paddingTop: '20%' }}>Welcome Alex</h3>
-            <br/>
+            <img
+            src="https://cdn2.iconfinder.com/data/icons/people-139/32/People_male_emo_young_makeup_dark_alternative-512.png"
+            alt="icon"
+            style={imageStyle}
+            />
             <br/>
             <Button
             onClick={showModal}

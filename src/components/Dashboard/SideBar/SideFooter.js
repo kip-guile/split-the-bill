@@ -10,7 +10,7 @@ const SideFooter = () => {
 
     return <div style={footerStyle}>
         <h3 style={{color:'white', paddingBottom:'1.5em'}}>Alexander Oguejiofor</h3>
-        <p>Copyright, 2019</p>
+        <p style={{color:'white'}}>Copyright, 2019</p>
     </div>
 }
 

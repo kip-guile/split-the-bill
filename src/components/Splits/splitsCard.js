@@ -68,9 +68,9 @@ export default function SplitsCard({ split, bills }) {
   return (
     <div>
     <Card title={split.bill.title} style={{ width: 300, marginBottom: '0.5em',
-    backgroundColor: '#D3D4D9' }}>
-      <p style={{ color: '#91BF26' }}>Amount: {split.amount}</p>
-      <p>status: {split.status}</p>
+    backgroundColor: '#A4A9AD' }}>
+      <h3>Amount: {split.amount}</h3>
+      <h2 style={split.status === 'pending' ? {color: 'yellow' } : {color: 'green' }}>{split.status}</h2>
       {split.status === 'pending' ?
             <Button
             onClick={() => showModal(split.id)}         
@@ -83,7 +83,8 @@ export default function SplitsCard({ split, bills }) {
                 Settle Bill
               </Button>
                :             
-               <Button             
+               <Button  
+               disabled           
                  style={{
                      background: '#4B88A2',
                      border: 'none',

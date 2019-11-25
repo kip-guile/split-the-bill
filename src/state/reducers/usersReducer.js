@@ -7,6 +7,8 @@ const initialState = {
         "firstName": "",
         "lastName": "",
         "email": "",
+        "createdAt": "",
+        "updatedAt": "",
         "bills": [],
         "splits": []
     }
