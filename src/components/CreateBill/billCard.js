@@ -10,7 +10,6 @@ export default function BillCard({ bill, showModal, showSettleModal }) {
     <Card title={bill.title} style={{ color: 'black', width: 300, marginBottom: '0.5em',
     backgroundColor: '#A4A9AD' }}>
       <h3>Amount: {bill.amount}</h3>
-      {/* <p>status: {bill.status}</p> */}
       {bill.splits.length ?
             <Button
             onClick={() => showSettleModal(bill.id)} 

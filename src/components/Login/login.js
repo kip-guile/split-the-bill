@@ -20,14 +20,12 @@ const NormalLoginForm = (props) => {
         }
 
       if (!err) {
-        console.log(details)
         message.loading('Logging in...', 3.5)
 
         axios.post(loginURL, details)
         .then(res => {
             localStorage.setItem('token', res.data.token);
             message.success('You are logged in', 1.0)
-            // actions.resetForm();
             props.history.push('/dashboard')
         })
         .catch(error => {

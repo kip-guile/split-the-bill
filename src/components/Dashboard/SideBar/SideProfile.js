@@ -1,7 +1,8 @@
 import React, {useState, useCallback} from 'react'
 import {useDispatch} from 'react-redux';
 import { Button, message } from 'antd';
-import * as types from '../../../state/actionTypes'
+// import * as types from '../../../state/actionTypes'
+import * as actions from '../../../state/actionCreators'
 import AxiosAuth from '../../../AxiosAuth/AxiosAuth'
 import CreateBill from '../../CreateBill/billModal'
 
@@ -36,15 +37,18 @@ const SideProfile = () => {
         AxiosAuth()
             .post(createBillURL, details)
             .then(res => {
-                const data = res.data.bill
+                debugger
+                // const data = res.data.bill
                 formRef.resetFields();
                 message.info('Bill Created');
-                dispatch({type: types.UPDATE_BILLS, payload: data})
+                // dispatch({type: types.UPDATE_BILLS, payload: data})
+                dispatch(actions.getBills())
                 setIsVisible(false);
             })
             .catch(error => {
+                debugger
                 localStorage.clear();
-                message.error(error.data.message);
+                message.error(error.message);
             });
         });
       };
