@@ -88,6 +88,8 @@ export default function MyBills (props) {
       dispatch(actionCreators.getUsers())
   }, [dispatch])
 
+  console.log(lumpstate.currentUser.bills)
+
   const styles = { display: 'flex', flexWrap: 'wrap', marginRight: '0.5em',
   justifyContent: 'space-around', width: '100%', marginTop: '0.5em'}
   
