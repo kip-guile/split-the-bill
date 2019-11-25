@@ -1,93 +1,143 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import AxiosAuth from '../../AxiosAuth/AxiosAuth';
+import { StickyContainer, Sticky } from 'react-sticky';
 import * as actionCreators from '../../state/actionCreators';
-import CreateBill from './billModal';
 import BillCard from './billCard'
-import { Button, message } from 'antd';
+import { Tabs, Select, message } from 'antd';
+import SplitsCard from '../Splits/splitsCard';
+import ShareBill from './shareModal';
+import AxiosAuth from '../../AxiosAuth/AxiosAuth'
+import SettleModal from '../settle/settleModal';
+
+const { Option } = Select;
+const { TabPane } = Tabs;
 
 
-const createBillURL = 'https://split-the-bill-api.herokuapp.com/api/bills';
 
+const renderTabBar = (props, DefaultTabBar) => (
+  <Sticky bottomOffset={80}>
+    {({ style }) => (
+      <DefaultTabBar
+        {...props}
+        style={{ ...style, zIndex: 1, background: '#fff', top: '90px' }}
+      />
+    )}
+  </Sticky>
+)
 
 export default function MyBills (props) {
-    const [isVisible, setIsVisible] = useState(false)
-    const [formRef, setFormRef] = useState(null);
+  const [isVisible, setIsVisible] = useState(false)
+  const [settleVisible, setSettleVisible] = useState(false)
+  const [billId, setBillId] = useState('')
+  const [data, setData] = useState([])
 
-    const showModal = () => {
-        setIsVisible(true)
-    }
-  
-    const handleCancel = () => {
+
+  const lumpstate = useSelector(state => state.lumpstate)
+  const dispatch = useDispatch()
+
+  const bills = lumpstate.currentUser.bills
+  const users = lumpstate.users
+
+  const split = (id, users) => {
+
+    AxiosAuth()
+      .post(`https://split-the-bill-api.herokuapp.com/api/bills/${id}/split`, {
+        splitters: (users[users.length - 1]),
+      })
+      .then(res => {
+        message.success('Bill splitted successfully')
+        dispatch(actionCreators.getBills())
         setIsVisible(false)
-    }
+      })
+      .catch(err => {
+        message.error(err.message)
+      })
+  };
 
-    const handleCreate = (props) => {
-        formRef.validateFields((err, values) => {
-          if (err) {
-            return;
-          }
+  const handleSettleCreate = () => {
 
-          const details = {
-            amount: values.amount,
-            title: values.title
-        }
-
-        
-        AxiosAuth()
-            .post(createBillURL, details)
-            .then(res => {
-                formRef.resetFields();
-                message.info('Bill Created');
-                dispatch(actionCreators.getBills())
-                setIsVisible(false);
-                // props.history.push('/my_bills')
-            })
-            .catch(error => {
-                localStorage.clear();
-                message.error('Failure');
-            });
-        });
-      };
-
-      const styles = { display: 'flex', flexWrap: 'wrap' }
+  }
     
-      const saveFormRef = useCallback(node => {
-        if (node !== null) {
-            setFormRef(node)
-        }
-      }, [])
+  const showModal = (id) => {
+    setBillId(id)
+    setIsVisible(true)
+  }
 
-    const lumpstate = useSelector(state => state.lumpstate)
-    const dispatch = useDispatch()
-        useEffect(() => {
-            dispatch(actionCreators.getBills())
-        }, [dispatch])
+  const showSettleModal = (bid) => {
+    const currentbill = bills.find(({id}) => id === bid)
+    setData(currentbill.splits)
+    console.log(bills, bid, currentbill, currentbill.splits)
+    setSettleVisible(true)
+  }
 
+  const handleCancel = () => {
+      setIsVisible(false)
+  }
 
+  const onSettleCancel = () => {
+    setSettleVisible(false)
+}
+  
+
+  const roll = users.map(user => 
+  <Option key={user.id}>{<p>{user.firstName + ' ' + user.lastName}</p>}</Option>)
+
+    useEffect(() => {
+      dispatch(actionCreators.getBills())
+      dispatch(actionCreators.getSplits())
+      dispatch(actionCreators.getUsers())
+  }, [dispatch])
+
+  const styles = { display: 'flex', flexWrap: 'wrap', marginRight: '0.5em',
+  justifyContent: 'space-around', width: '100%', marginTop: '0.5em'}
   
   return (
-    
-    <div>
-      <Button type="primary" onClick={showModal}>
-        Create A Bill
-      </Button>
+    <div style={{ marginLeft: '20vw', marginTop: '90px' }}>
+      <StickyContainer>
+        <Tabs defaultActiveKey="1" size="large" renderTabBar={renderTabBar}>
+        <TabPane tab="Owed Bills" key="1">
+            {<div style={styles}>{
+              lumpstate.currentUser.bills.map(bill => (
+                <BillCard
+                  key={bill.id}
+                  bill={bill}
+                  showModal={showModal}
+                  showSettleModal={showSettleModal}
+                />
+              ))}
+            </div>}
+          </TabPane>
 
-      <CreateBill
-          ref={saveFormRef}
+        <TabPane tab="Owing Bills" key="2">
+          {<div style={styles}>{
+            lumpstate.currentUser.splits.map(split => (
+              <SplitsCard
+              key={split.id}
+              split={split}
+              bills={bills}
+              />
+            ))}
+          </div>}
+        </TabPane>
+        </Tabs>
+      </StickyContainer>
+
+      <SettleModal
+      settleVisible={settleVisible}
+      onSettleCancel={onSettleCancel}
+      handleSettleCreate={handleSettleCreate}
+      data={data}
+      setSettleVisible={setSettleVisible}
+      />
+
+      
+      <ShareBill
           visible={isVisible}
           onCancel={handleCancel}
-          onCreate={handleCreate}
-        />
-
-      <div style={styles}>
-        {lumpstate.currentUser.bills.map(bill => (
-          <BillCard
-            key={bill.id}
-            bill={bill}
+          roll={roll}
+          billId={billId}
+          onCreate={split}
           />
-        ))}
-        </div>
     </div>
     
   );

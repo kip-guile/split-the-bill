@@ -7,6 +7,8 @@ const initialState = {
         "firstName": "",
         "lastName": "",
         "email": "",
+        "createdAt": "",
+        "updatedAt": "",
         "bills": [],
         "splits": []
     }
@@ -32,6 +34,32 @@ export default (state = initialState, action) => {
                 currentUser: {
                     ...state.currentUser,
                     bills: action.payload
+                }
+            }
+
+        case actionTypes.UPDATE_BILLS:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    bills: [...state.currentUser.bills, action.payload]
+                }
+            }
+
+        case actionTypes.ADD_SPLITS:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    splits: action.payload
+                }
+            }
+
+        case actionTypes.UPDATE_SPLITS:
+            return {
+                currentUser: {
+                    ...state.currentUser,
+                    splits: action.payload
                 }
             }
     
