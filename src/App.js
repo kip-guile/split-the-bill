@@ -14,9 +14,9 @@ function App() {
     <Switch>
       <WithAuthCheck path='/dashboard' component={Dashboard}/>
       <Route exact path={["/", "/login"]} component={NormalLoginForm} />
+      <Route exact path="/register" component={RegistrationForm} />
       <Route exact path="/counter" component={Counter} />
       <Route path="*" component={NotFound} />
-      <Route path="/register" component={RegistrationForm} />
     </Switch>
   );
 }

@@ -1,4 +1,5 @@
-import React, {} from 'react';
+import React from 'react';
+import { NavLink } from 'react-router-dom'
 import axios from 'axios';
 import './login.css';
 
@@ -75,7 +76,7 @@ const NormalLoginForm = (props) => {
         </Form.Item>
         <Form.Item>
             <div>
-          <a className="login-form-forgot" href="google.com">
+          <a className="login-form-forgot" href="*">
             Forgot password?
           </a>
           </div>
@@ -83,7 +84,9 @@ const NormalLoginForm = (props) => {
             Log in
           </Button>
           <div>
-          Dont have an account? <a href="google.com">register now!</a>
+          Dont have an account? <NavLink to='/register'>
+            register now!
+            </NavLink>
           </div>
         </Form.Item>
       </Form>
