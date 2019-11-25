@@ -31,7 +31,7 @@ import {
               console.log(res.data.message);
               message.success('Sign in successful', 1.0)
               props.form.resetFields()
-            //   props.history.push('/')
+              props.history.push('/')
           })
           .catch(error => {
               debugger
@@ -67,33 +67,33 @@ import {
   
       const { getFieldDecorator } = props.form;
   
-      const formItemLayout = {
-        labelCol: {
-          xs: { span: 20 }, //24
-          sm: { span: 10 }, //8
-        },
-        wrapperCol: {
-          xs: { span: 15 }, //24
-          sm: { span: 8 }, //16
-        },
-      };
-      const tailFormItemLayout = {
-        wrapperCol: {
-          xs: {
-            span: 24, //24
-            offset: 0,
-          },
-          sm: {
-            span: 4, //16
-            offset: 10, //8
-          },
-        },
-      };
+      // const formItemLayout = {
+      //   labelCol: {
+      //     xs: { span: 20 }, //24
+      //     sm: { span: 10 }, //8
+      //   },
+      //   wrapperCol: {
+      //     xs: { span: 15 }, //24
+      //     sm: { span: 8 }, //16
+      //   },
+      // };
+      // const tailFormItemLayout = {
+      //   wrapperCol: {
+      //     xs: {
+      //       span: 24, //24
+      //       offset: 0,
+      //     },
+      //     sm: {
+      //       span: 4, //16
+      //       offset: 10, //8
+      //     },
+      //   },
+      // };
 
       const styles2 = {
-        width: '50%',
+        width: '30%',
         padding: '2em',
-        margin: '0 auto',
+        margin: '3em auto',
         backgroundColor: '#D3D4D9'
     };
 
@@ -106,7 +106,8 @@ import {
             <div style={styles1}>
                 <h2>Sign Up</h2>
             </div>
-            <Form {...formItemLayout} onSubmit={handleSubmit}>
+            {/* {...formItemLayout} */}
+            <Form onSubmit={handleSubmit}>
             <Form.Item label="E-mail">
                 {getFieldDecorator('email', {
                 rules: [
@@ -177,7 +178,9 @@ import {
                 })(<Input />)}
             </Form.Item>
 
-            <Form.Item {...tailFormItemLayout}>
+            {/* {...tailFormItemLayout} */}
+
+            <Form.Item >
                 <Button type="primary" htmlType="submit">
                 Register
                 </Button>
