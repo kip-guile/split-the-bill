@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { NavLink } from 'react-router-dom'
 import axios from 'axios';
 import './login.css';
 
-import { Form, Icon, Input, Button, message, Typography } from 'antd';
+import { Form, Icon, Input, Button, message, Typography, Spin } from 'antd';
 
 const { Title } = Typography;
 
 const loginURL = 'https://split-the-bill-api.herokuapp.com/api/auth/login';
 
 const NormalLoginForm = (props) => {
+  const [loading, setLoading] = useState(false)
+
+  const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#BB0A21' }} spin />
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -20,17 +23,19 @@ const NormalLoginForm = (props) => {
         }
 
       if (!err) {
-        message.loading('Logging in...', 3.5)
+        setLoading(true)
 
         axios.post(loginURL, details)
         .then(res => {
-            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('token', res.data.token)
             message.success('You are logged in', 1.0)
+            setLoading(false)
             props.history.push('/dashboard')
         })
         .catch(error => {
-            localStorage.clear();
-            alert(error.response.data.message || error.message);
+            localStorage.clear()
+            setLoading(false)
+            message.error(error.response.data.message || error.message, 1.0);
         });
       }
     });
@@ -88,6 +93,7 @@ const NormalLoginForm = (props) => {
           </div>
         </Form.Item>
       </Form>
+      <Spin indicator={antIcon} spinning={loading}/>
       </div>
     );
 
